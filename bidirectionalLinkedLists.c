@@ -210,7 +210,7 @@ int main() {
     // Create 5 log entries with different timestamps
     logentry *log1 = createLogEntry(1, 3, "System started", "2099-09-30 09:00:15");
     logentry *log2 = createLogEntry(2, 2, "Warning: High CPU usage", "2025-10-29 09:05:42");
-    logentry *log3 = createLogEntry(3, 1, "Error: Disk space low", "2054-01-30 08:30:30");
+    logentry *log3 = createLogEntry(3, 1, "Error: Disk space low", "2012-01-30 08:30:30");
     logentry *log4 = createLogEntry(4, 4, "Security Alert: Unauthorized login", "2029-01-18 08:31:10");
     logentry *log5 = createLogEntry(5, 2, "System shutdown initiated", "2101-01-29 09:50:05");
 
