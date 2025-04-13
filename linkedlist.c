@@ -25,7 +25,7 @@ if(NULL==*head){
 (*head)->next=NULL;
  return;
 }
-if(0==where){
+if(0==where ||(where<0 && where!=-1)){
     Plogentry temp=*head;
     *head=malloc(sizeof(logentry));
     (*head)->id=ID;
@@ -51,9 +51,9 @@ temp2->next=NULL;
  return;
 }
 if(-1!=where && 0!=where){
-    Plogentry temp=*head,temp2,temp3=temp; // temp curent temp2 new temp3 prvious 
+    Plogentry temp=*head,temp2,temp3=temp,save=*head; // temp curent temp2 new temp3 prvious 
     int count=0;
-    while(NULL!=temp->next&&count!=where){
+    while(save!=temp->next&&count!=where){
         temp3=temp;
         temp=temp->next;
         count++;
@@ -379,12 +379,12 @@ Plogentry merge2bydate(Plogentry head1,Plogentry head2){
     }
     if(NULL==head1){
         temp->next=head2;
-        printf("user %d log in at %s have %d and put %s\n",head3->id,head3->timestamp,head3->severity,head3->message);
+       
         return head3;
     }
     if(NULL==head2){
         temp->next=head1;
-        printf("user %d log in at %s have %d and put %s\n",head3->id,head3->timestamp,head3->severity,head3->message);
+        
         return head3;
     }
     
@@ -392,7 +392,7 @@ Plogentry merge2bydate(Plogentry head1,Plogentry head2){
 }
 
 
-void SortLogsbydate(Plogentry *head) 
+void SortLogsbydate(Plogentry *head) //merge sort
 {
         if(issortedbydate(*head))
     return;
@@ -408,6 +408,25 @@ void SortLogsbydate(Plogentry *head)
     }
     *head=merge2bydate(*head,half);
 }
+void printlogentry(Plogentry head){
+    
+    if(head==NULL){
+        printf("THE LOG LIST IS EMPTY ");
+        return;
+    }
+    
+
+    
+    while(NULL!=head){
+        printf("[ID: %d] [%s] [severity : %d] %s\n",
+        head->id,
+        head->timestamp,head->severity,
+        head->message );
+        
+        head=head->next;
+    }
+}
+
 
 
 int main(){

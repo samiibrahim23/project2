@@ -9,7 +9,7 @@
 typedef struct logentry
 {
 int id;
-char timestamp[40];  // DD_MM_YYYY HH:MM:SS do not forget espace at the begening and the end
+char timestamp[40];  //[ DD_MM_YYYY HH:MM:SS ]do not forget espace at the begening and at the end
 int severity;
 char message[256];
 struct logentry *next;
@@ -33,6 +33,12 @@ bool issortedbyseveritylevel(Plogentry head );
 Plogentry merge2byseveritylevel(Plogentry head1,Plogentry head2);
 void split2(Plogentry head,Plogentry *head1);
 void SortLogsbyseveritylevel(Plogentry *head); //merge sort 
+bool issortedbydate(Plogentry head );
+Plogentry merge2bydate(Plogentry head1,Plogentry head2);
+void SortLogsbydate(Plogentry *head); //merge sort
+
+void printlogentry(Plogentry head);
+
 
 
 
