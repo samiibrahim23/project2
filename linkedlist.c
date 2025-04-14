@@ -25,7 +25,7 @@ if(NULL==*head){
 (*head)->next=NULL;
  return;
 }
-if(0==where ||(where<0 && where!=-1)){
+if(0==where ||where<-1 ){
     Plogentry temp=*head;
     *head=malloc(sizeof(logentry));
     (*head)->id=ID;
@@ -418,7 +418,7 @@ void printlogentry(Plogentry head){
 
     
     while(NULL!=head){
-        printf("[ID: %d] [%s] [severity : %d] %s\n",
+        printf("[ID: %02d] [%s] [severity : %02d] %s\n",
         head->id,
         head->timestamp,head->severity,
         head->message );
