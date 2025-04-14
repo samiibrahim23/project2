@@ -315,7 +315,7 @@ bool issortedbydate(Plogentry head ){
          head->timestamp[7], head->timestamp[8], head->timestamp[9], 
          head->timestamp[10], head->timestamp[4], head->timestamp[5], 
          head->timestamp[1], head->timestamp[2]);
-        if(strcmp(current,next)!=0)
+        if(strcmp(current,next)>0)
         return false;
         
     }
