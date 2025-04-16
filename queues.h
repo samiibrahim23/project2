@@ -38,24 +38,26 @@ void dequeue(queue *head){
 	p=head->front;
 	head->front=head->front->next;
 	free(p);}}
-void printQueue(queue *head){
-	queue *p;
-	node *q;
-	int val;
-	q=head->front;
-	p->front=head->front;
-	val=q->value;
-	printf("\t %d",q->value);
-	dequeue(p);
-	enqueue(p,val);
-	q=q->next;
-	while(p->front!=head->front){
-		val=q->value;
-		dequeue(p);
-	    enqueue(p,val);
-	     q=q->next;
-		
-	}
-	
-	
+int peek(queue *head){
+	if(head->front==NULL)
+	return(-1);
+	return(head->front->value);
 }
+void print(queue *head){
+		node *p;
+		p=head->front;
+		while(p!=NULL){
+		printf("%d",p->value);
+		if(p->next!=NULL)
+		printf("-->");
+		p=p->next;}}
+int main(int argc, char *argv[]) {
+    queue *head = NULL;
+    creat_queue(&head);
+    enqueue(head,1);
+    enqueue(head,4);
+    enqueue(head,3);
+    enqueue(head,2);
+    print(head);
+
+    return 0;}
