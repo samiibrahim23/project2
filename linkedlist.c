@@ -291,12 +291,12 @@ void SortLogsbyseveritylevel(Plogentry *head) {  //merge sort
     
     split2(*head,&half);
     
-    while(!issortedbyseveritylevel(*head) || !issortedbyseveritylevel(half)){
+    
         
         SortLogsbyseveritylevel(head);
         SortLogsbyseveritylevel(&half);
         
-    }
+    
     *head=merge2byseveritylevel(*head,half);
 }
 
@@ -400,12 +400,12 @@ void SortLogsbydate(Plogentry *head) //merge sort
     
     split2(*head,&half);
     
-    while(!issortedbydate(*head) || !issortedbydate(half)){
+    
         
         SortLogsbydate(head);
         SortLogsbydate(&half);
         
-    }
+    
     *head=merge2bydate(*head,half);
 }
 void printlogentry(Plogentry head){
