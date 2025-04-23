@@ -1,1 +1,3 @@
-remeber while ---> if
+
+ 
+ remeber while ---> if   in merge 
