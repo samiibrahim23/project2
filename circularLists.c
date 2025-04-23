@@ -366,12 +366,12 @@ void SortCLogsbyseveritylevel(PClogentry *head)  //merge sort
     
     split2(*head,&half);
     
-    while(!issortedbyseveritylevel(*head) || !issortedbyseveritylevel(half)){
+    
         
         SortCLogsbyseveritylevel(head);
         SortCLogsbyseveritylevel(&half);
         
-    }
+    
     *head=merge2byseveritylevel(*head,half);
 }
 
@@ -484,12 +484,12 @@ void SortCLogsbydate(PClogentry *head) //merge sort
     
     split2(*head,&half);
     
-    while(!issortedbydate(*head) || !issortedbydate(half)){
+    
         
         SortCLogsbydate(head);
         SortCLogsbydate(&half);
         
-    }
+    
     *head=merge2bydate(*head,half);
 }
 
