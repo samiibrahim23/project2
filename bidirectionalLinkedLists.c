@@ -92,20 +92,47 @@ void Delete_Log_Entry_ID(logentry **head,logentry **tail,int ID){//  if the id d
 				temp0->next=NULL;
 				free(*tail);
 				*tail=temp0;}}
-void sort_log_by_date(logentry **head,logentry **tail){
+logentry* serch_by_id(logentry *head,logentry *tail,int id){
+	 
+	 
+	 while(tail->id!=id && head->id!=id) {
+	 	if(tail==head | tail->next==head)
+	 	return(NULL);
+	 	tail=tail->prv;
+	 	head=head->next;
+	 }
+	 if(tail->id==id)
+	 return(tail);
+	 else
+	 return(head);
+}
+logentry* serch_by_date(logentry *head,logentry *tail,char date[25]){// write the date like this %Y-%m-%d %H:%M
+      while(strcmp(date,head->date)!=0){
+      	if(head==NULL)
+      	return(NULL);
+      	head=head->next;}
+		  return(head);}
+logentry* serch_by_keyword(logentry *head,logentry *tail,char keyword[25]){
+	while(strstr(head->message,keyword)!=NULL){
+		if(head==NULL)
+		return(NULL);
+		head=head->next;}
+		return(head);
+}
+void sort_log_by_severity(logentry **head,logentry **tail){
 	logentry *temp=*head,*mid=NULL,*temp2=NULL,*temp3=NULL;
-	int check=0;
+	int check=1;
 	char date[20];
-	while(check!=1500){
-		strcpy(date,temp->date);
+	while(check!=0){
+		check=0;
+		temp=*head;
 		while(temp->next!=NULL){
 			mid=temp->next;
-		if(strcmp(date,mid->date)<=0){
+		if(temp->severity<=mid->severity){
 		temp=temp->next;
-		mid=temp->next;
-		strcpy(date,temp->date);
-		}
+		mid=temp->next;}
 		else{
+			check=1;
 			if(temp->prv==NULL){
 				temp2=mid->next;
 				*head=mid;
@@ -136,8 +163,131 @@ void sort_log_by_date(logentry **head,logentry **tail){
 			temp2->prv=temp;
 			temp3->next=mid;
 			}}}}
-			temp=*head;
-			check++;}}
+			temp=*head;}}
+void sort_log_by_date(logentry **head,logentry **tail){
+	logentry *temp=*head,*mid=NULL,*temp2=NULL,*temp3=NULL;
+	int check=2;
+	char date[20];
+	while(check!=0){
+		check=0;
+		strcpy(date,temp->date);
+		while(temp->next!=NULL){
+			mid=temp->next;
+		if(strcmp(date,mid->date)<=0){
+		temp=temp->next;
+		mid=temp->next;
+		strcpy(date,temp->date);
+		}
+		else{
+			check=1;
+			if(temp->prv==NULL){
+				temp2=mid->next;
+				*head=mid;
+				mid->prv=NULL;
+				mid->next=temp;
+				temp->prv=mid;
+				temp->next=temp2;
+				temp2->prv=temp;
+			}
+			else{
+				if(mid->next==NULL){
+					temp2=temp->prv;
+					temp2->next=mid;
+					mid->prv=temp2;
+					mid->next=temp;
+					temp->prv=mid;
+					temp->next=NULL;
+					*tail=temp;
+					
+				}
+				else{
+		
+			temp3=temp->prv;
+			temp2=mid->next;
+			temp->next=temp2;
+			temp->prv=mid;
+			mid->next=temp;
+			temp2->prv=temp;
+			temp3->next=mid;
+			}}}}
+			temp=*head;}}
+int CountTotalLogs(logentry *left,logentry *right){ 
+    int count=1;
+ while(left!=right){
+    count++;
+    left=left->next;
+ }
+ return count;
+}
+
+void reverse(logentry **head,logentry **tail){
+  logentry *left,*temp=*head,*right,*temp2,*left1;
+  while(temp2!=NULL){
+  	if((*head)->prv==NULL){
+  		(*head)->prv=(*head)->next;
+	    (*head)->next=NULL;
+		  right=(*head)->prv;
+		  right=right->next;
+		  temp=right;
+        left=(*head)->prv;
+        left1=*head;
+		temp2=temp->next;}
+	    else{
+
+	  right->next=left;
+	  left->prv=temp;
+	  left->next=left1;
+	  left1=left;
+	  left=right;
+	  right=temp2;
+	  temp2=temp2->next;}}
+	  left->prv=*tail;
+	  left->next=left1;
+	  (*tail)->next=left;
+	  (*tail)->prv=NULL;
+	  temp=*head;
+	  *head=*tail;
+	  *tail=temp;
+}
+void DeleteLogAtIndex(logentry **head, logentry **tail, int index) {
+    if (*head == NULL) return;
+    logentry *temp = *head;
+    int count = 0;
+    while (temp != NULL && count < index) {
+        temp = temp->next;
+      count++;
+    }
+    if (temp == NULL) return; 
+    if (temp == *head) {
+        *head = temp->next;
+        if (*head != NULL) (*head)->prv = NULL;
+        else *tail = NULL;
+    }
+    else if (temp == *tail) {
+        *tail = temp->prv;
+        (*tail)->next = NULL;
+    }
+
+    else {
+        temp->prv->next = temp->next;
+        temp->next->prv = temp->prv;
+}
+    free(temp);}
+void MergeLogLists(logentry **head1, logentry **tail1, logentry *head2) {
+    if (*head1 == NULL) {
+        *head1 = head2;
+        *tail1 = head2;
+        while (*tail1 && (*tail1)->next != NULL)
+            *tail1 = (*tail1)->next;
+        return;
+    }
+    if (head2 == NULL) return; 
+    (*tail1)->next = head2;
+    head2->prv = *tail1;
+    while (head2->next != NULL)
+        head2 = head2->next;
+    *tail1 = head2;
+}
 
 
 
@@ -205,14 +355,15 @@ void PrintLogEntries(logentry *head) {
         temp=temp->next;}}
 
 int main() {
-	logentry *head = NULL, *tail = NULL;
+	logentry *head = NULL, *tail = NULL,*temp;
+	int arr[5]={1,2,3,4,5};
 
     // Create 5 log entries with different timestamps
-    logentry *log1 = createLogEntry(1, 3, "System started", "2099-09-30 09:00:15");
-    logentry *log2 = createLogEntry(2, 2, "Warning: High CPU usage", "2025-10-29 09:05:42");
-    logentry *log3 = createLogEntry(3, 1, "Error: Disk space low", "2012-01-30 08:30:30");
+    logentry *log1 = createLogEntry(7, 3, "System started", "2099-09-30 09:00:15");
+    logentry *log2 = createLogEntry(2, 20, "Warning: High CPU usage", "2025-10-29 09:05:42");
+    logentry *log3 = createLogEntry(3, 1, "Error: Disk space low", "2020-01-30 08:30:30");
     logentry *log4 = createLogEntry(4, 4, "Security Alert: Unauthorized login", "2029-01-18 08:31:10");
-    logentry *log5 = createLogEntry(5, 2, "System shutdown initiated", "2101-01-29 09:50:05");
+    logentry *log5 = createLogEntry(5, -1, "System shutdown initiated", "2101-01-29 09:50:05");
 
     // Link nodes in a doubly linked list
     head = log1;
@@ -233,8 +384,11 @@ int main() {
 
    
     printf("Log Entries:\n");
-    sort_log_by_date(&head,&tail);
-    PrintLogEntries(head);
+  
+      printf("%d",binary_serch(arr,0,4,5));
+        PrintLogEntries(temp);
+      
+    
 
     
     
