@@ -48,15 +48,6 @@ else
     return max;
 
 }
-
-
-
-
-
-
-
-
-
 int binary_serch(int arr[],int left, int right,int val){
 	int mid;
 	mid=(right+left)/2;
@@ -74,4 +65,10 @@ int binary_serch(int arr[],int left, int right,int val){
 	return(binary_serch(arr,mid+1,right,val));
 	
 }
-
+void infix_postfix(char string[]){
+	
+	while(string[i]!="\0"){
+		switch(string[i])
+		case("+"):return
+	}	
+}
